@@ -14,11 +14,11 @@ var frontController = {
   },
 
   getTopicsGroups: function (req, res) {
-    var query = `SELECT a.ActivityId, a.Name AS ActivityName, p.PhaseId, p.Name AS PhaseName, COUNT(t.TopicId) AS Topics FROM Phases p
+    var query = `SELECT a.ActivityId, a.Name AS ActivityName, p.PhaseId, p.Name AS PhaseName, p.Description AS PhaseDescription, COUNT(t.TopicId) AS Topics FROM Phases p
     CROSS APPLY Activities a
     LEFT JOIN Topics t
     ON t.PhaseId = p.PhaseId AND t.ActivityId = a.ActivityId AND t.SubCategoryId = @SubCategoryId
-    GROUP BY a.ActivityId, a.Name, p.PhaseId, p.Name
+    GROUP BY a.ActivityId, a.Name, p.PhaseId, p.Name,p.Description
     ORDER BY a.Activityid`;
 
     let inputList = [{ parameter: "SubCategoryId", type: sql.Int, value: req.params.id }];
